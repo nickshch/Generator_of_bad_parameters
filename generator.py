@@ -1,5 +1,6 @@
+import json
 from gmodules import functions_dispatch
-from extensions import extract_object_keys, get_json_from_file, get_rand_domain
+from extensions import extract_object_keys, get_json_from_file
 from random import randint, seed
 
 
@@ -15,10 +16,26 @@ def bad_value_generator(input_object):
     return functions_dispatch[param_bad]()
 
 
+def generate_bad_value_json(input_json, rounds):
+    bad_jsons_list = []
+    for i in range(0, rounds):
+        params_dict = {}
+        errors_dict = {}
+        bad_list_element = {}
+        for x in input_json:
+            value, error = bad_value_generator(input_json[x])
+            params_dict[x] = value
+            errors_dict[x] = error
+        bad_list_element['params'] = params_dict
+        bad_list_element['errors'] = errors_dict
+
+        bad_jsons_list.append(bad_list_element)
+    return bad_jsons_list
+
+
 def main():
-    parsed_json = get_json_from_file('data.json')
-    print(extract_object_keys(parsed_json['domain']))
-    print(bad_value_generator(parsed_json['domain']))
+    bad_values = generate_bad_value_json(get_json_from_file('data.json'), 2)
+    print(json.dumps(bad_values, indent=2))
 
 if __name__ == '__main__':
     main()
