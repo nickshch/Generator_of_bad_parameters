@@ -1,4 +1,4 @@
-json_string = """{
+{
     "login": [
         "string",
         "required",
@@ -53,4 +53,4 @@ json_string = """{
         "optional",
         {"default_value": "12-10-1991"}
     ]
-}"""
+}
