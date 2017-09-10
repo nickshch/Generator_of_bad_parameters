@@ -29,6 +29,7 @@ def generate_none():
 
 dispatch = {
     'maxlength': generate_maxlength_string,
+    'minlength': generate_minlength_string,
     'string': generate_random_int,
     'required': generate_none
 }
@@ -42,7 +43,7 @@ def extract_params(input_object):
         elif isinstance(key, dict):
             for subkey in key:
                 if subkey in keys_for_bad_things:
-                    keys_from_object.append(subkey)
+                    keys_from_object.append(key)
 
     return keys_from_object
 
@@ -50,14 +51,17 @@ def extract_params(input_object):
 def bad_value_generator(object_key):
     keys = extract_params(parsed_json[object_key])
     bad_param_id = randint(0, len(keys) - 1)
-    return dispatch[keys[bad_param_id]]()
-    # print(parsed_json[object_key][0])
+    param_bad = keys[bad_param_id]
+    if isinstance(param_bad, dict):
+        dict_key = next(iter(param_bad.keys()))
+        dict_value = next(iter(param_bad.values()))
+        return dispatch[dict_key](dict_value)
+    return dispatch[param_bad]()
 
 
-# maxlength = parsed_json['login'][3]['maxlength']
-# rand_string(randint(maxlength, maxlength+50))
-# for x in parsed_json['login']:
-#     if 'maxlength' in x:
-#         print('found maxlength')
-#
-print(bad_value_generator('login'))
+def main():
+    print(extract_params(parsed_json['login']))
+    print(bad_value_generator('login'))
+
+if __name__ == '__main__':
+    main()
