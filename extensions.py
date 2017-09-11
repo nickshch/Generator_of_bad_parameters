@@ -8,8 +8,8 @@ KEYS_FOR_BAD_VALUES = ['required', 'string', 'minlength', 'maxlength', 'allowed_
 SEX_LIST = ['male', 'female']
 
 
-def get_rand_string(size):
-    return ''.join(random.choice(string.ascii_letters+string.digits) for _ in range(size))
+def get_rand_string(size, chars_string):
+    return ''.join(random.choice(chars_string) for _ in range(size))
 
 
 def get_rand_domain(*argv):
@@ -18,6 +18,15 @@ def get_rand_domain(*argv):
         domain = '.' + domain
         domain = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(argv[i])) + domain
     return domain
+
+
+def get_rand_unreliable_pass():
+    rand_pass_chars = {
+        0: string.ascii_lowercase,
+        1: string.ascii_uppercase,
+        2: string.digits
+    }
+    return get_rand_string(random.randint(6, 15), rand_pass_chars[random.randint(0, 2)])
 
 
 def get_json_from_file(file):

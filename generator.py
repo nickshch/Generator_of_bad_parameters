@@ -34,8 +34,8 @@ def generate_bad_value_json(input_json, rounds):
 
 
 def main():
-    bad_values = generate_bad_value_json(get_json_from_file('data.json'), 2)
-    print(json.dumps(bad_values, indent=2))
+    bad_values = generate_bad_value_json(get_json_from_file('data.json'), 4)
+    print(json.dumps(bad_values, indent=4))
 
 if __name__ == '__main__':
     main()
