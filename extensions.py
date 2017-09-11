@@ -6,6 +6,12 @@ import re
 KEYS_FOR_BAD_VALUES = ['required', 'string', 'minlength', 'maxlength', 'allowed_values',
                        'password', 'domain', 'phone', 'birthday']
 SEX_LIST = ['male', 'female']
+ERROR_BAD_TYPE = 'bad_type'
+ERROR_TOO_SHORT = 'weak'
+ERROR_REQUIRED = 'required'
+ERROR_BAD_VALUE = 'bad_value'
+ERROR_TOO_LONG = 'too_long'
+ERROR_UNRELIABLE = 'unreliable'
 
 
 def get_rand_string(size, chars_string):
