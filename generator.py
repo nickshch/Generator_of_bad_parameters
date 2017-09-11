@@ -5,7 +5,6 @@ from random import randint, seed
 
 
 def bad_value_generator(input_object):
-    seed()
     keys = extract_object_keys(input_object)
     bad_param_id = randint(0, len(keys) - 1)
     param_bad = keys[bad_param_id]
@@ -34,6 +33,7 @@ def generate_bad_value_json(input_json, rounds):
 
 
 def main():
+    seed()
     bad_values = generate_bad_value_json(get_json_from_file('data.json'), 4)
     print(json.dumps(bad_values, indent=4))
 

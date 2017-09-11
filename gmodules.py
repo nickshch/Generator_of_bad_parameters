@@ -23,6 +23,22 @@ def generate_bad_password():
     return variants[randint(0, 1)]
 
 
+def generate_bad_phone():
+    variants = {
+        0: generate_random_int(),
+        1: [get_rand_string(randint(1, 20), string.ascii_letters + string.digits + string.punctuation), ERROR_BAD_VALUE]
+    }
+    return variants[randint(0, 1)]
+
+
+def generate_bad_birthday():
+    variants = {
+        0: generate_random_int(),
+        1: [get_rand_string(10, string.ascii_letters + string.digits + string.punctuation), ERROR_BAD_VALUE]
+    }
+    return variants[randint(0, 1)]
+
+
 def generate_not_allowed_values(input_list):
     if is_domain(input_list[0]):
         return get_rand_domain(randint(2, 6), randint(2, 20)), ERROR_BAD_VALUE
@@ -35,12 +51,12 @@ def generate_none():
 
 functions_dispatch = {
     'allowed_values': generate_not_allowed_values,
-    'birthday': generate_random_int,
+    'birthday': generate_bad_birthday,
     'domain': generate_random_int,
     'maxlength': generate_maxlength_string,
     'minlength': generate_minlength_string,
     'password': generate_bad_password,
-    'phone': generate_random_int,
+    'phone': generate_bad_phone,
     'required': generate_none,
     'string': generate_random_int
 }
