@@ -1,21 +1,37 @@
-import random
-import string
 import json
+import random
 import re
+import string
+
+ERROR_BAD_TYPE = 'bad_type'
+ERROR_BAD_VALUE = 'bad_value'
+ERROR_REQUIRED = 'required'
+ERROR_TOO_LONG = 'too_long'
+ERROR_TOO_SHORT = 'weak'
+ERROR_UNRELIABLE = 'unreliable'
 
 KEYS_FOR_BAD_VALUES = ['required', 'string', 'minlength', 'maxlength', 'allowed_values',
                        'password', 'domain', 'phone', 'birthday']
 SEX_LIST = ['male', 'female']
-ERROR_BAD_TYPE = 'bad_type'
-ERROR_TOO_SHORT = 'weak'
-ERROR_REQUIRED = 'required'
-ERROR_BAD_VALUE = 'bad_value'
-ERROR_TOO_LONG = 'too_long'
-ERROR_UNRELIABLE = 'unreliable'
 
 
-def get_rand_string(size, chars_string):
-    return ''.join(random.choice(chars_string) for _ in range(size))
+def extract_object_keys(input_object):
+    keys_from_object = []
+    for key in input_object:
+        if key in KEYS_FOR_BAD_VALUES:
+            keys_from_object.append(key)
+        elif isinstance(key, dict):
+            for subkey in key:
+                if subkey in KEYS_FOR_BAD_VALUES:
+                    keys_from_object.append(key)
+
+    return keys_from_object
+
+
+def get_json_from_file(file):
+    with open(file, 'r') as fp:
+        data = json.load(fp)
+    return data
 
 
 def get_rand_domain(*argv):
@@ -26,6 +42,10 @@ def get_rand_domain(*argv):
     return domain
 
 
+def get_rand_string(size, chars_string):
+    return ''.join(random.choice(chars_string) for _ in range(size))
+
+
 def get_rand_unreliable_pass():
     rand_pass_chars = {
         0: string.ascii_lowercase,
@@ -33,12 +53,6 @@ def get_rand_unreliable_pass():
         2: string.digits
     }
     return get_rand_string(random.randint(6, 15), rand_pass_chars[random.randint(0, 2)])
-
-
-def get_json_from_file(file):
-    with open(file, 'r') as fp:
-        data = json.load(fp)
-    return data
 
 
 def is_domain(input_string):
@@ -53,16 +67,3 @@ def is_sex(input_string):
         return True
     else:
         return False
-
-
-def extract_object_keys(input_object):
-    keys_from_object = []
-    for key in input_object:
-        if key in KEYS_FOR_BAD_VALUES:
-            keys_from_object.append(key)
-        elif isinstance(key, dict):
-            for subkey in key:
-                if subkey in KEYS_FOR_BAD_VALUES:
-                    keys_from_object.append(key)
-
-    return keys_from_object
