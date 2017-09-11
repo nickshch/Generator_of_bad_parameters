@@ -1,6 +1,7 @@
 import sys
-from extensions import *
 from random import randint
+
+from .extensions import *
 
 
 def generate_bad_birthday():

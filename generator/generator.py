@@ -1,7 +1,9 @@
 import json
 import random
-from extensions import extract_object_keys, get_json_from_file
-from gmodules import generator_modules
+
+from .gmodules import generator_modules
+
+from .extensions import extract_object_keys
 
 
 def generate_value_error_from_object(input_object):
@@ -31,13 +33,3 @@ def generate_sets_param_error_from_json(input_json, rounds):
 
         bad_jsons_list.append(bad_list_element)
     return bad_jsons_list
-
-
-def main():
-    data_json = get_json_from_file('data.json')
-    count_of_sets = 4
-    bad_values = generate_sets_param_error_from_json(data_json, count_of_sets)
-    print(json.dumps(bad_values, indent=4))
-
-if __name__ == '__main__':
-    main()
